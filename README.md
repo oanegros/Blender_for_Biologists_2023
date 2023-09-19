@@ -1,5 +1,6 @@
 # Blender for Biologists
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+
 Hi! This is a course on blender, an open-source 3D modeling software, for biological visualization. This is created initially for the 2023 EMBL Predoc Course but will stay online afterwards, as resources on microscopy data visualization in blender seem sparse on the web. 
 
 This workshop will hopefully show you:
