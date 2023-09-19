@@ -10,7 +10,7 @@ For this course we need blender, and zstacker, an addon C++ code package that ca
 
 - Download one of the zstacker .zip files from https://github.com/GallowayLabMIT/zstacker/releases/tag/v1.0
     - Unzip the folder and note down the full path  (all directories and the filename) to the executable binary file (called zstacker), this cannot contain spaces 
-    - if your OS is not supported in zstacker see the documentation at main https://github.com/GallowayLabMIT/zstacker 
+    - if your OS is not supported see the documentation at main https://github.com/GallowayLabMIT/zstacker 
 
 ## Start
 
@@ -23,4 +23,4 @@ Start blender.
 \
 You should now see the default Blender start. You can delete the default cube by clicking it and pressing `X`
 
-
+[0b loading 3D data](./0b_loading%203D%20data.md)
