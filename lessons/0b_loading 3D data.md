@@ -6,7 +6,9 @@ The blender volume data format is a [.vdb](https://www.openvdb.org/forum/), whic
 
 ## Running zstacker
 
-Move to the `scripting` tab of blender. This shows the blender-python interface. We'll run a python script [zstacker_wrapper.py](../scripts/zstacker_wrapper.py) from this interface, that will automatically call `zstacker`. Load in the script from the file explorer at the top, or just copy and paste the text.
+Move to the `scripting` tab of blender. This shows the blender-python interface. 
+<img src="../figures/scripting tab.png" alt="isolated" width="100"/>
+We'll run a python script [zstacker_wrapper.py](../scripts/zstacker_wrapper.py) from this interface, that will automatically call `zstacker`. Load in the script from the file explorer at the top, or just copy and paste the text.
 - <details><summary>Blender tabs?</summary>tabs are located at the top of the screen, and allow different workflows. The default is 'layout', each tab has a different purpose. For the purposes of this tutorial, we will stay between the layout, scripting and shading tabs. Any tab's windows can also be edited and customized. </details>
 
 \

@@ -40,8 +40,10 @@ Lesson 1 **Rendering**:
 - [1b A slow pretty volume render](./lessons/1b_cycles_emission_plus_density.md)
 - [1c Volume to mesh](./lessons/1c_volume_to_mesh.md)
 
+Lesson 2 **Combining it**:
+- [Multichannel images](./lessons/2_multichannel.md)
+
 Extra useful things
-- Multichannel images
 - pdb files with molecular nodes
 - Rendering on the EMBL cluster
 
