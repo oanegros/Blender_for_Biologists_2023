@@ -49,7 +49,7 @@ for tmpfile in tmpfiles:
     tmpfile.unlink()
 
 scale = np.array([ xy_scale*imgdata.shape[1], xy_scale*imgdata.shape[2],z_scale*imgdata.shape[0], ]) * 0.001
-scale = np.ones(3)*0.2
+scale = np.ones(3)*0.02
 bpy.ops.object.volume_import(filepath=str(tif.with_suffix(".vdb")), align='WORLD', location=(0, 0, 0), scale=tuple(scale))
 print(bpy.context.view_layer.objects.active.name)
 print(scale)
