@@ -10,15 +10,16 @@ Move to the `scripting` tab of blender. This shows the blender-python interface.
 
 <img src="../figures/scripting tab.png" alt="isolated" width="100"/>
 
-We'll run a python script [zstacker_wrapper.py](../scripts/zstacker_wrapper.py) from this interface, that will automatically call `zstacker`. Load in the script from the file explorer at the top, or just copy and paste the text.
 - <details><summary>Blender tabs?</summary>tabs are located at the top of the screen, and allow different workflows. The default is 'layout', each tab has a different purpose. For the purposes of this tutorial, we will stay between the layout, scripting and shading tabs. Any tab's windows can also be edited and customized. </details>
+
+We'll run a python script [zstacker_wrapper.py](../scripts/zstacker_wrapper.py) from this interface, that will automatically call `zstacker`. Load in the script from the file explorer at the top, or just copy and paste the text.
 
 \
 Before running `zstacker`, the input values to `input_file` and `zstacker_path` to the appropriate paths for a tif file and the zstacker executable, respectively. Also put in the correct physical size of your pixels in for the `xy_size` and `z_size` fields. 
 
 There is an example tif stack we will use in the course [here]().
 
-Notes on input data:
+**Notes on input data**:
 - Data should be a .tif zstack in RGB Color mode
 - Any vdb > 450 MB [will crash blender](https://projects.blender.org/blender/blender/issues/107252) currently
 - <details><summary>Advanced</summary> The vdb format is optimized for sparse volumes with big empty areas, and making your volumes sparse allows you to load in bigger data. This is changed by thresholding your data with the -t flag in the zstacker utility </details>
