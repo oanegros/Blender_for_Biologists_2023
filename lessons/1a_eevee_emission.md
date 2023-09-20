@@ -49,3 +49,6 @@ Render Properties:
 Under `Render Properties` we can change how accurate the render is. We are currently using the `Eevee` render engine, which is a fast and interactive renderer. Here one easy optimization is to increase the number of `Viewport Samples`, increasing the depth of the Volume tree that is sampled.
 Additionally, we can change settings in the `Volumetrics` tab: here recommended is to at least go to 2 px `Tile Size`. Here the `Samples` are less straight forward, as they are also modulated by `Distribution`. Often the standard settings work. 
 
+\
+For more publication-ready render settings go to [lesson 1b](./1b_cycles_emission_plus_density.md)
+Or go [back to main](../README.md)

@@ -27,5 +27,6 @@ There is an example tif stack we will use in the course [here]().
 With the paths set to the correct filepaths, run the script by pressing the play button in the top row.
 
 This should yield a big gray box of data. In here is your data, it is just not rendered yet! For this: go to the [rendering lesson 1a](./1a_eevee_emission.md) :yum:.
+Or go [back to main](../README.md)
 
-- <details><summary>Advanced info on the zstacker_wrapper script</summary>This wrapper script installs tifffile python library, unpacks a tif into an image sequence, and then calls zstacker via subprocess on the folder with tifs. Hereby it thresholds none of the data away, and sets a z scale into the vdb file. It then deletes the created temporary files and loads the vdb automatically and scales it down.  </details>
+- <details><summary>Advanced info on the zstacker_wrapper script</summary>This wrapper script installs tifffile python library, unpacks a tif into an image sequence, and then calls zstacker via subprocess on the folder with tifs. Hereby it thresholds none of the data away, and sets a z scale into the vdb file. It then deletes the created temporary files and loads the vdb automatically and scales it down. It then assigns an Empty as a parent and moves this to center (to move the pivot point to the center in xy) </details>

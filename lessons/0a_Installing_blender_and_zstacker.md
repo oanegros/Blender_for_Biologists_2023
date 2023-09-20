@@ -24,3 +24,4 @@ Start blender.
 You should now see the default Blender start. You can delete the default cube by clicking it and pressing `X`
 
 Next lesson, loading 3D data: [0b loading 3D data](./0b_loading%203D%20data.md)
+Or go [back to main](../README.md)

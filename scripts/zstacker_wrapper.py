@@ -78,4 +78,17 @@ print(bpy.context.view_layer.objects.active.name)
 print(scale)
 bpy.context.view_layer.objects.active.scale = scale
 
-#TODO parent the new volume to an empty at the center of the volume and relocate this to world origin
+vol= bpy.context.view_layer.objects.active
+
+empty = bpy.ops.object.empty_add(location=tuple((np.array(vol.bound_box[-1][:])/2) *0.02))
+empty = bpy.context.object
+empty.name = str(tif.name) + " container" 
+
+vol.parent = empty
+vol.matrix_parent_inverse = empty.matrix_world.inverted()
+
+empty.location = (0,0,0)
+
+print('done')
+
+
