@@ -5,10 +5,13 @@ So currently we have a grey box of loaded in volume data, where blender is not r
 Go to the `Shading` tab, as we will now change the shading (the interaction of an object with light) of the volume. 
 
 Select the volume in the `Outliner` window.
+
 <img src="../figures/outliner.png" width="200"/>
 
 To show the different channels in the volume we can look at the `Object Data Properties` under the Volume icon in the right `Properties` tab:
+
 <img src="../figures/volume_channels.png"  width="200"/>
+
 Here we see that the `zstacker`-made volumes have 4 channels, encoding the RGBA of the RGB color tif. Note that these are case-sensitive names.
 
 ## Volume shaders
