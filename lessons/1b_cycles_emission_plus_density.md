@@ -9,4 +9,5 @@ You can change the render engine in the `Render Properties`.
 
 ## Setting up a Camera
 
-To use the `Render` mode of rendering, we have to define an active camera and set it up 
+To use the `Render` mode of rendering, we have to add a camera. This can be done easiest in the `Layout` tab. 
+Here press `Add` or `Shift+A` and add a camera.
