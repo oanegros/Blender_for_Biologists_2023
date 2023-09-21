@@ -33,7 +33,7 @@ This is an example of a simple shader for microscopy data, that you can try to r
 <img src="../figures/simple 1a shader.png" width="500"/>
 
 Here the `Attribute` reads out the `channelB` intensities in the volume. The `Fac` output of the `Attribute` node gives single values per voxel. 
-The `channelB` is then piped into `Map Range`, which thresholds (here at  >0.1) and rescales the intensity. 
+The `channelB` is then piped into `Map Range`, which thresholds (here at  >0.1 - very dependent on your data!) and rescales the intensity. 
 This goes to `Emission strength` - the emission of each voxel is defined by the rescaled intensity in the Blue channel. In the `Principled Volume`, the `Density` is set to 0. In this way, there is no obstruction for the emitted light. 
 The `Principled Volume` shader is then piped to `Material Output`.
 
@@ -61,6 +61,8 @@ Render Properties:
 
 Under `Render Properties` we can change how accurate the render is. We are currently using the `Eevee` render engine, which is a fast and interactive renderer. Here one easy optimization is to increase the number of `Viewport Samples`, increasing the depth of the Volume tree that is sampled.
 Additionally, we can change settings in the `Volumetrics` tab: here recommended is to at least go to 2 px `Tile Size`. Here the `Samples` are less straight forward, as they are also modulated by `Distribution`. Often the standard settings work. 
+
+Additionally change under `Render Properties > Color Management` the `View Transform` to `Standard`, the standard `Filmic` color management setting quenches your dynamic range.
 
 \
 For more publication-ready render settings go to [lesson 1b](./1b_cycles_emission_plus_density.md)
