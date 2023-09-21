@@ -33,7 +33,7 @@ This is similar to a Z projection, alghough the precise type of Z projection dep
 <details><summary>Orthographic vs Perspective cameras</summary> Orthographic cameras show all objects at the same scale, in perspective cameras, objects which are far away are smaller than those nearby. Orthographic projections are standard in microscopy (for Z projections, for example). Perspective projections are default in many other cases, as this is how we view the world usually. </details>
 
 \
-**Making a side view:**
+**Making other angles of view:**
 Here the location and rotation depends a lot more on your data :D. You can move the camera by the input values in `Object Properties` of the camera, or by pressing `G` and moving the mouse (constrain movement along an axis with `X` `Y` `Z` keys). `Rotation` and `Scale` can be done similarly with `R` and `S`.
 
 ## Output
