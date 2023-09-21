@@ -23,7 +23,7 @@ There is an example tif stack we will use in the course [here]().
 - Data should be a .tif zstack in RGB Color mode
 - It is easier to work with if your data is already normalized before running `zstacker_wrapper` 
 - Any vdb >2048 axis length in any direction [will crash blender](https://projects.blender.org/blender/blender/issues/83942) currently <details><summary> About the crash</summary> This is an issue with Eevee and viewport rendering volumes as a dense 3D texture, which has a max size. Thus, Cycles can actually handle bigger datasets, but this can be very inconvenient as blender will crash immediately when accidentally opening a non-cycles viewport. The preferred route will be an extension of `zstacker_wrapper` to include automatic cropping into smaller separate volumes and parenting them together, see issue #1 </details>
-- <details><summary>Advanced</summary> The vdb format is optimized for sparse volumes with big empty areas, and making your volumes sparse allows you to load in bigger data. This is changed by thresholding your data with the -t flag in the zstacker utility, however, full sparse volume support in Blender is not enabled, and most of the gain will probably be in Cycles. </details>
+- <details><summary>Advanced</summary> The vdb format is optimized for sparse volumes with big empty areas. This is changed by thresholding your data with the -t flag in the zstacker utility, however, full sparse volume support in Blender is not enabled, and most of the gain will probably be in Cycles. </details>
 
 With the paths set to the correct filepaths, run the script by pressing the play button in the top row.
 
