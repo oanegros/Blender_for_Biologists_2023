@@ -34,13 +34,13 @@ except:
 import bpy
 
 # Tif file with RGB Color dtype (path cannot have spaces)
-input_file = "/Users/oanegros/Documents/werk/blender_workshop/3colortif.tif"
+input_file = "/Users/oanegros/Documents/werk/Blender_for_Biologists_2023/data/RPE1_Expansion_MeOH_405DAPI_488alphabetaTubulin_zstack_40x_Proc.tif"
 # path to zstacker executable (path cannot have spaces)
 zstacker_path = "/Users/oanegros/Documents/werk/scripts/zstacker_v1.0_macos_1015/zstacker"
 
 # physical size of the pixels in µm
 xy_scale = 0.207
-z_scale = 0.190
+z_scale = 0.170
 
 axes_order = 'zyx'
 #TODO implement time, channels
