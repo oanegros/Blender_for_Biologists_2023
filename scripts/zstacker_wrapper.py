@@ -65,7 +65,7 @@ for z in range(imgdata.shape[zax]):
     tifffile.imwrite(fname, imgdata.take(indices=z,axis=zax))
     tmpfiles.append(fname)
 
-subprocess.run(" ".join([zstacker_path, "-t 1 -z", str(xy_scale/z_scale) ,str(tif.parents[0] / "tmp"),  str(tif.with_suffix(".vdb"))]), shell=True)
+subprocess.run(" ".join([zstacker_path, "-t 1 -z", str(z_scale/xy_scale) ,str(tif.parents[0] / "tmp"),  str(tif.with_suffix(".vdb"))]), shell=True)
 
 #    
 for tmpfile in tmpfiles:
