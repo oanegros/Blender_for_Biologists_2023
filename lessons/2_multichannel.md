@@ -18,10 +18,10 @@ As an extra challenge, this also shows the result of a cellpose segmentation pip
 
 <details><summary>Hints for mask renders</summary> Outlines are not very easy to make, other render modes may work easier, such as very transparent or translucent materials. 
 For transparency to work in `Eevee`, you need to set `Material Properties > Settings > Blend Mode` to `Alpha Blend`.
-<br>
+<br><br>
 To make outlines work, <a href="https://www.youtube.com/watch?v=5wu_SvCCX_U">i followed this youtube tutorial</a>, where you add a solidify modifier to the volume-to-mesh of the masks. This adds a thickness to the mask. You can then give the original shape a transparent Material and the mask an emmission/other Material. 
 Note that for this to work you need to flip the normals of the `Solidify Modifier` so that `Backface Culling` in `Material Properties > Settings` effectively becomes front-face culling (`Eevee` only tries to render the back of the object). 
-<br>
+<br><br>
 An even more advanced render may take the value out of the mask and seed a random number generator in `Geometry Nodes` to assign random colors to each outline. (or even create `Instances` of each separate nucleus that behave as their own `Geometry`)
 
  </details>
