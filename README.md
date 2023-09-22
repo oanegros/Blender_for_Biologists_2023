@@ -45,7 +45,7 @@ Lesson 2 **Combining it**:
 
 Extra useful things
 - pdb files with molecular nodes
-- Rendering on the EMBL cluster
+- Rendering on clusters (and tips for the EMBL cluster)
 
 ---
 
