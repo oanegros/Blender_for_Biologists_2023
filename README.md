@@ -8,10 +8,12 @@ All biological systems live in 3D, and a lot of our data, such as microscopy, ar
 
 Here, I hope to show that we can use the open source software blender, which has a lot of community support from artists, to create pretty and granularly controllable 3D data visualizations.
 
-Let's try to make a pretty cell! 
-<!---
-TODO: add pretty cell render
--->
+Let's try to make a pretty microscopy images! 
+
+<img src="./figures/pretty1.png"  width="400"/>
+<br>
+<img src="./figures/celegans1.png"  width="400"/>
+
 
 ## This workshop
 
