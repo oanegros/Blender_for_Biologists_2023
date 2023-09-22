@@ -21,11 +21,6 @@ This workshop will hopefully show you:
 - loading in 3D microscopy data render it in Blender
 - emulating render modes of popular proprietary visualization software
 
-With extra lessons:
-- loading in multichannel data
-- quick introduction for loading .pdb files with molecular nodes (better tutorials exist for this online)
-- quick introduction to geometry nodes
-
 This will not teach:
 - Many blender basics you will not primarily need when using blender as a 3D data visualization tool (sculpting, modeling)
 
