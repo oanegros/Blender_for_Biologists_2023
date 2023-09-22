@@ -26,3 +26,6 @@ An even more advanced render may take the value out of the mask and seed a rando
 
  </details>
 
+---
+
+This is the end of the tutorial :D. [Go back to main](../README.md)
