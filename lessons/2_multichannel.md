@@ -13,6 +13,8 @@ This shows the _C. elegans_ gonad in the process of meiosis. Here we find homolo
 
 As an extra challenge, this also shows the result of a cellpose segmentation pipeline as outlines around the segmented nuclei. Note that outlines are possible in `Cycles`, but easier in `Eevee`. This render was also made with only `Eevee`.
 
+Also, consider animating your output! You can do this by adding `keyframes` for almost all values. An easy way to get started with this is to set a `keyframe` for a camera `Rotation` and `Location` at the start, move the timepoint in the `Timeline`, move the camera and add a new `keyframe` for camera `Rotation` and `Location` at this timepoint. Blender will now interpolate between the two locations at all timeframes in between.
+
 ---
 <details><summary>Hints for multichannel images</summary> The <code>Mix Shader</code> Node allows you to combine multiple shaders together before piping to <code>Material Output</code> </details>
 
