@@ -46,8 +46,8 @@ Lesson 2 **Combining it**:
 - [Multichannel images](./lessons/2_multichannel.md)
 
 Extra useful things
-- pdb files with molecular nodes
-- Rendering on clusters (and tips for the EMBL cluster)
+- [pdb files with molecular nodes](./extra_lessons/molecular_nodes.md)
+- [Rendering on clusters (and tips for the EMBL cluster)](./extra_lessons/cluster_rendering.md)
 
 ---
 
