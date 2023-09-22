@@ -34,7 +34,8 @@ except:
 import bpy
 
 # Tif file with RGB Color dtype (path cannot have spaces)
-input_file = "/Users/oanegros/Documents/werk/Blender_for_Biologists_2023/data/RPE1_Expansion_MeOH_405DAPI_488alphabetaTubulin_zstack_40x_Proc.tif"
+# input_file = "/Users/oanegros/Documents/werk/blender_workshop/221107_SampleA_SoRA_Gonad1_fused_3.tif"
+input_file = "/Users/oanegros/Documents/werk/blender_workshop/3colortif.tif"
 # path to zstacker executable (path cannot have spaces)
 zstacker_path = "/Users/oanegros/Documents/werk/scripts/zstacker_v1.0_macos_1015/zstacker"
 
@@ -43,6 +44,29 @@ xy_scale = 0.207
 z_scale = 0.170
 
 axes_order = 'zyx'
+
+def make_and_load_vdb(imgdata, x_ix, y_ix, z_ix, axes_order, tif):
+    zax =  axes_order.find('z')
+    for z in range(imgdata.shape[zax]):
+        print(imgdata.take(indices=z,axis=zax).shape)
+        print(imgdata.shape, z)
+        fname = tif.parents[0] / f"tmp_zstacker/{z:04}.tif"
+        tifffile.imwrite(fname, imgdata.take(indices=z,axis=zax))
+        tmpfiles.append(fname)
+    identifier = str(x_ix)+str(y_ix)+str(z_ix)
+
+    subprocess.run(" ".join([zstacker_path, "-t 1 -z", str(z_scale/xy_scale) ,str(tif.parents[0] / "tmp_zstacker"),  str(tif.with_name(tif.stem + identifier +".vdb"))]), shell=True)
+
+    #    
+    for tmpfile in tmpfiles:
+        tmpfile.unlink()
+    
+    scale = np.ones(3)*0.02
+    bpy.ops.object.volume_import(filepath=str(tif.with_suffix(".vdb")), align='WORLD', location=(0, 0, 0))
+    bpy.context.view_layer.objects.active.scale = scale
+    return bpy.context.view_layer.objects.active
+
+
 #TODO implement time, channels
 
 tif = Path(input_file)
@@ -56,33 +80,18 @@ with tifffile.TiffFile(input_file) as ifstif:
 
 print(metadata)
 (tif.parents[0] / "tmp_zstacker/").mkdir(exist_ok=True)
-zax =  axes_order.find('z')
+
+
 tmpfiles = []
-for z in range(imgdata.shape[zax]):
-    print(imgdata.take(indices=z,axis=zax).shape)
-    print(imgdata.shape, z)
-    fname = tif.parents[0] / f"tmp_zstacker/{z:04}.tif"
-    tifffile.imwrite(fname, imgdata.take(indices=z,axis=zax))
-    tmpfiles.append(fname)
+print(imgdata.shape)
+print([(dim // 2048)+ 1 for dim in imgdata.shape])
 
-subprocess.run(" ".join([zstacker_path, "-t 1 -z", str(z_scale/xy_scale) ,str(tif.parents[0] / "tmp_zstacker"),  str(tif.with_suffix(".vdb"))]), shell=True)
-
-#    
-for tmpfile in tmpfiles:
-    tmpfile.unlink()
-
-scale = np.ones(3)*0.02
-bpy.ops.object.volume_import(filepath=str(tif.with_suffix(".vdb")), align='WORLD', location=(0, 0, 0), scale=tuple(scale))
-
-bpy.context.view_layer.objects.active.scale = scale
-
-vol= bpy.context.view_layer.objects.active
-
-# volumes are parented by an empty to give a central pivot point
+vol = make_and_load_vdb(imgdata, 0,0,0, axes_order, tif)
 
 empty = bpy.ops.object.empty_add(location=tuple((np.array(vol.bound_box[-1][:])/2) *0.02))
 empty = bpy.context.object
 empty.name = str(tif.name) + " container" 
+
 
 vol.parent = empty
 vol.matrix_parent_inverse = empty.matrix_world.inverted()
