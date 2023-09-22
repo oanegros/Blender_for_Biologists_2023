@@ -55,30 +55,30 @@ with tifffile.TiffFile(input_file) as ifstif:
 
 
 print(metadata)
-(tif.parents[0] / "tmp/").mkdir(exist_ok=True)
+(tif.parents[0] / "tmp_zstacker/").mkdir(exist_ok=True)
 zax =  axes_order.find('z')
 tmpfiles = []
 for z in range(imgdata.shape[zax]):
     print(imgdata.take(indices=z,axis=zax).shape)
     print(imgdata.shape, z)
-    fname = tif.parents[0] / f"tmp/{z:04}.tif"
+    fname = tif.parents[0] / f"tmp_zstacker/{z:04}.tif"
     tifffile.imwrite(fname, imgdata.take(indices=z,axis=zax))
     tmpfiles.append(fname)
 
-subprocess.run(" ".join([zstacker_path, "-t 1 -z", str(z_scale/xy_scale) ,str(tif.parents[0] / "tmp"),  str(tif.with_suffix(".vdb"))]), shell=True)
+subprocess.run(" ".join([zstacker_path, "-t 1 -z", str(z_scale/xy_scale) ,str(tif.parents[0] / "tmp_zstacker"),  str(tif.with_suffix(".vdb"))]), shell=True)
 
 #    
 for tmpfile in tmpfiles:
     tmpfile.unlink()
 
-scale = np.array([ xy_scale*imgdata.shape[1], xy_scale*imgdata.shape[2],z_scale*imgdata.shape[0], ]) * 0.001
 scale = np.ones(3)*0.02
 bpy.ops.object.volume_import(filepath=str(tif.with_suffix(".vdb")), align='WORLD', location=(0, 0, 0), scale=tuple(scale))
-print(bpy.context.view_layer.objects.active.name)
-print(scale)
+
 bpy.context.view_layer.objects.active.scale = scale
 
 vol= bpy.context.view_layer.objects.active
+
+# volumes are parented by an empty to give a central pivot point
 
 empty = bpy.ops.object.empty_add(location=tuple((np.array(vol.bound_box[-1][:])/2) *0.02))
 empty = bpy.context.object
