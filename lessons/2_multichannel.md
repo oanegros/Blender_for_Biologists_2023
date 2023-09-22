@@ -14,15 +14,15 @@ This shows the _C. elegans_ gonad in the process of meiosis. Here we find homolo
 As an extra challenge, this also shows the result of a cellpose segmentation pipeline as outlines around the segmented nuclei. Note that outlines are possible in `Cycles`, but easier in `Eevee`. This render was also made with only `Eevee`.
 
 ---
-<details><summary>Hints for multichannel images</summary> The `Mix Shader` Node allows you to combine multiple shaders together before piping to `Material Output` </details>
+<details><summary>Hints for multichannel images</summary> The <code>Mix Shader</code> Node allows you to combine multiple shaders together before piping to <code>Material Output</code> </details>
 
 <details><summary>Hints for mask renders</summary> Outlines are not very easy to make, other render modes may work easier, such as very transparent or translucent materials. 
-For transparency to work in `Eevee`, you need to set `Material Properties > Settings > Blend Mode` to `Alpha Blend`.
+For transparency to work in <code>Eevee</code>, you need to set <code>Material Properties > Settings > Blend Mode</code> to <code>Alpha Blend</code>.
 <br><br>
 To make outlines work, <a href="https://www.youtube.com/watch?v=5wu_SvCCX_U">i followed this youtube tutorial</a>, where you add a solidify modifier to the volume-to-mesh of the masks. This adds a thickness to the mask. You can then give the original shape a transparent Material and the mask an emmission/other Material. 
-Note that for this to work you need to flip the normals of the `Solidify Modifier` so that `Backface Culling` in `Material Properties > Settings` effectively becomes front-face culling (`Eevee` only tries to render the back of the object). 
+Note that for this to work you need to flip the normals of the <code>Solidify Modifier</code> so that <code>Backface Culling</code> in <code>Material Properties > Settings</code> effectively becomes front-face culling (<code>Eevee</code> only tries to render the back of the object). 
 <br><br>
-An even more advanced render may take the value out of the mask and seed a random number generator in `Geometry Nodes` to assign random colors to each outline. (or even create `Instances` of each separate nucleus that behave as their own `Geometry`)
+An even more advanced render may take the value out of the mask and seed a random number generator in <code>Geometry Nodes</code> to assign random colors to each outline. (or even create <code>Instances</code> of each separate nucleus that behave as their own <code>Geometry</code>)
 
  </details>
 
