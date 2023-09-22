@@ -16,5 +16,10 @@ As an extra challenge, this also shows the result of a cellpose segmentation pip
 ---
 <details><summary>Hints for multichannel images</summary> The `Mix Shader` Node allows you to combine multiple shaders together before piping to `Material Output` </details>
 
-<details><summary>Hints for mask renders</summary> The `Mix Shader` Node allows you to combine multiple shaders together before piping to `Material Output` </details>
+<details><summary>Hints for mask renders</summary> Outlines are not very easy to make, other render modes may work easier, such as very transparent or translucent materials. 
+For transparency to work in `Eevee`, you need to set `Material Properties > Settings > Blend Mode` to `Alpha Blend`.
+
+To make outlines work, <a href="https://www.youtube.com/watch?v=5wu_SvCCX_U">i followed this youtube tutorial</a>, where you add a solidify modifier to the volume-to-mesh of the masks. This adds a thickness to the mask. You can then give the original shape a transparent Material and the mask an emmission/other Material. 
+Note that for this to work you need to flip the normals of the `Solidify Modifier` so that `Backface Culling` in `Material Properties > Settings` effectively becomes front-face culling (`Eevee` only tries to render the back of the object). 
+ </details>
 
