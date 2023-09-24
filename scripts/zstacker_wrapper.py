@@ -53,14 +53,15 @@ def make_and_load_vdb(imgdata, x_ix, y_ix, z_ix, axes_order, tif):
         print(imgdata.shape, z)
         fname = tif.parents[0] / f"tmp_zstacker/{z:04}.tif"
         plane = imgdata.take(indices=z,axis=zax)
-        if axes_order.find('x') < axes_order.find('y'):
-            print('transposing')
-            plane = plane.T
+#        if axes_order.find('x') < axes_order.find('y'):
+#            print('transposing')
+#            plane = plane.T
+        print(plane.shape)
         tifffile.imwrite(fname, plane)
         tmpfiles.append(fname)
     identifier = str(x_ix)+str(y_ix)+str(z_ix)
 
-    subprocess.run(" ".join([zstacker_path, "-t 0 -z", str(z_scale/xy_scale) ,str(tif.parents[0] / "tmp_zstacker"),  str(tif.with_name(tif.stem + identifier +".vdb"))]), shell=True)
+    subprocess.run(" ".join([zstacker_path, "-t 1 -z", str(z_scale/xy_scale) ,str(tif.parents[0] / "tmp_zstacker"),  str(tif.with_name(tif.stem + identifier +".vdb"))]), shell=True)
 
     #    
     for tmpfile in tmpfiles:
@@ -94,37 +95,32 @@ volumes =[]
 a_chunks = np.array_split(imgdata, n_splits[0], axis=0)
 for a_ix, a_chunk in enumerate(a_chunks):
     b_chunks = np.array_split(a_chunk, n_splits[1], axis=1)
+    
     for b_ix, b_chunk in enumerate(b_chunks):
         c_chunks = np.array_split(b_chunk, n_splits[2], axis=2)
-        for c_ix, c_chunk in enumerate(c_chunks):
-            print(c_chunk.shape)
+        for c_ix, c_chunk in enumerate(reversed(c_chunks)):
             vol = make_and_load_vdb(c_chunk, a_ix, b_ix, c_ix, axes_order, tif)
-            bbox = np.array(vol.bound_box[-2][:])
-            print(bbox)
+            bbox = np.array([c_chunk.shape[2],c_chunk.shape[1],c_chunk.shape[0]*(z_scale/xy_scale)])
             scale = np.ones(3)*0.02
             vol.scale = scale
-            offset = np.array([c_ix,b_ix,a_ix])
-
+            offset = np.array([-c_ix-1,-b_ix-1,-a_ix-1])
+            
             vol.location = tuple(offset*bbox*scale)
             volumes.append(vol)
-    break
 
-#     n_split = (imgdata.shape[ax] // 2048)+ 1
-#     arrays = [np.array_split(array, n_split, axis=ax) for array in arrays]
-#     print(arrays)
+# keep z at bottom
+center = np.array([c_chunk.shape[2] * (-len(c_chunks)), c_chunk.shape[1] * (-len(b_chunks)), c_chunk.shape[0] * (-len(a_chunks)*(z_scale/xy_scale))])*np.array([0.5,0.5,1])
+empty = bpy.ops.object.empty_add(location=tuple(center*0.02))
 
-
-# # vol = make_and_load_vdb(imgdata, 0,0,0, axes_order, tif)
-
-# empty = bpy.ops.object.empty_add(location=tuple((np.array(vol.bound_box[-1][:])/2) *0.02))
-# empty = bpy.context.object
-# empty.name = str(tif.name) + " container" 
+empty = bpy.context.object
+empty.name = str(tif.name) + " container" 
 
 
-# vol.parent = empty
-# vol.matrix_parent_inverse = empty.matrix_world.inverted()
+for vol in volumes:
+    vol.parent = empty
+    vol.matrix_parent_inverse = empty.matrix_world.inverted()
 
-# empty.location = (0,0,0)
+empty.location = (0,0,0)
 
 print('done')
 
