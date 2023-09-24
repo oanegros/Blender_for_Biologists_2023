@@ -40,15 +40,16 @@ This is an example of a simple shader for microscopy data, where the data emits 
 
 Consider how each of the values changes the rendering!
 
-<details><summary>Explanation of this shader</summary> Here the `Attribute` reads out the `channelB` intensities in the volume. The `Fac` output of the `Attribute` node gives single values per voxel. 
-The `channelB` is then piped into `Map Range`, which thresholds (here at  >0.1 - very dependent on your data!) and rescales the intensity. 
-This goes to `Emission strength` - the emission of each voxel is defined by the rescaled intensity in the Blue channel. In the `Principled Volume`, the `Density` is set to 0. In this way, there is no obstruction for the emitted light. 
-The `Principled Volume` shader is then piped to `Material Output`. </details>
+<details><summary>Explanation of how this shader works</summary> Here the <code>Attribute</code> reads out the <code>channelB</code> intensities in the volume. The <code>Fac</code> output of the <code>Attribute</code> node gives single values per voxel. 
+The <code>channelB</code> is then piped into <code>Map Range</code>, which thresholds (here at  >0.1 - very dependent on your data!) and rescales the intensity. 
+This goes to <code>Emission strength</code> - the emission of each voxel is defined by the rescaled intensity in the Blue channel. In the <code>Principled Volume</code>, the <code>Density</code> is set to 0. In this way, there is no obstruction for the emitted light. 
+The <code>Principled Volume</code> shader is then piped to <code>Material Output</code>. </details>
+<details><summary><code>Map Range > Clamp</code> explanation</summary> Clamping values in blender means to restrict to values between 0 and 1 </details>
 
 \
 Test out what happens when the `Density` is also defined by the intensity!
 
-<details><summary><code>Map Range > Clamp</code> explanation</summary> Clamping values in blender means to restrict to values between 0 and 1 </details>
+
 
 ## Necessary render settings
 
@@ -59,10 +60,14 @@ Viewport Rendering:
 <img src="../figures/viewport render modes.png" width="100"/> 
 There are four viewport render modes, and only the `Material preview` and `Rendered` view (the two most on the right) take the shader nodes into account. `Rendered` shading is slowest, but takes all settings into account. 
 
+Try out how these other render settings look! Consider adding a sphere or cube with `Add` or `Shift+A` to see how meshes are rendered in each mode.
+
 Background:
 
 <img src="../figures/background color.png" width="200"/> 
-You can change the background color in `Rendered` view under the `World Properties` tab. Here a full black is useful for microscopy data.
+You can change the background color in `Rendered` view under the `World Properties` tab. Here a full black is useful for emitting microscopy data. 
+
+Try to see if you can make a shader combination that works with a white background!
 
 Render Properties:
 
