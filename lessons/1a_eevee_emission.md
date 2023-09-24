@@ -1,6 +1,10 @@
 # Rendering: Interactive data exploration 
 
-So currently we have a grey box of loaded in volume data, where blender is not reading out the intensities of the volume. 
+So currently we have a grey box of loaded in volume data, where blender is not reading out the intensities of the volume. The next goal is to add a `Material` that makes our fluorescence intensity values emit light based on the underlying data!
+
+---
+
+For this we first need to see how the values are stored within the volume:
 
 Go to the `Shading` tab, as we will now change the shading (the interaction of an object with light) of the volume. 
 
@@ -16,7 +20,9 @@ Here we see that the `zstacker`-made volumes have 4 channels, encoding the RGBA 
 
 ## Volume shaders
 
-To change how the volume interacts with light, we need to assign it a new Material. For this we can `Add a new material`:
+To change how the volume interacts with light, we need to assign it a new `Material`. Within the `Material` we can read out the volume data and tell this to either absorb or emit light. 
+
+For this we can `Add a new material`:
 
 <img src="../figures/add new material.png" width="200"/>
 
@@ -28,18 +34,21 @@ The `Principled Volume` node contains most of the capabilities of volume shaders
 
 We can now add new nodes with the options under `Add`, and connect nodes. Anythin that leads to the eventual `Material Output` node, is taken into account when rendering. 
 
-This is an example of a simple shader for microscopy data, that you can try to recreate:
+This is an example of a simple shader for microscopy data, where the data emits white light, that you can try to recreate:
 
 <img src="../figures/simple 1a shader.png" width="500"/>
 
-Here the `Attribute` reads out the `channelB` intensities in the volume. The `Fac` output of the `Attribute` node gives single values per voxel. 
+Consider how each of the values changes the rendering!
+
+<details><summary>Explanation of this shader</summary> Here the `Attribute` reads out the `channelB` intensities in the volume. The `Fac` output of the `Attribute` node gives single values per voxel. 
 The `channelB` is then piped into `Map Range`, which thresholds (here at  >0.1 - very dependent on your data!) and rescales the intensity. 
 This goes to `Emission strength` - the emission of each voxel is defined by the rescaled intensity in the Blue channel. In the `Principled Volume`, the `Density` is set to 0. In this way, there is no obstruction for the emitted light. 
-The `Principled Volume` shader is then piped to `Material Output`.
+The `Principled Volume` shader is then piped to `Material Output`. </details>
 
+\
 Test out what happens when the `Density` is also defined by the intensity!
 
-<details><summary>Clamp explanation</summary> Clamping values in blender means to restrict to values between 0 and 1 </details>
+<details><summary><code>Map Range > Clamp</code> explanation</summary> Clamping values in blender means to restrict to values between 0 and 1 </details>
 
 ## Necessary render settings
 
