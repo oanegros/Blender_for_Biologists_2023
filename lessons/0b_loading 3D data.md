@@ -1,8 +1,17 @@
 # Loading 3D microscopy data
 
-Blender's volumetric rendering is primarily used for fog and fire animations, we can use the same framework for 3D microscopy data.
+Blender's volumetric rendering is primarily used for fog and fire animations, we can use the same framework for 3D microscopy data. 3D data is in microscopy often saved as a .tif, saving all voxels (volume pixels) values in order on the disk. 
+
+<img src="../figures/neubias 3ddata.png" alt="isolated" width="300"/>
+
+(image from [NEUBIAS](https://neubias.github.io/training-resources/multidimensional_image_basics/index.html))
 
 The blender volume data format is a [.vdb](https://www.openvdb.org/forum/), which is a tree-like data format, so the standard tif-grid data needs to first be restructured to be able to load into blender. For this we use the downloaded utility `zstacker`.
+<details><summary>About the vdb data structure</summary>VDBs contain multiple scales of voxels, where the larger ones mostly contain whether there is data in its lower nodes. In this way, when a lightray traverses a large volume, it does not have to check every voxel for an intersection. 
+
+<img src="../figures/vdb museth.png" alt="isolated" width="300"/> 
+
+Image from Ken Museth (2013), showing the depth of saving of a 2D circle in a vdb, green being root nodes, orange and blue internal nodes and red leaf nodes.  </details>
 
 ## Running zstacker
 
