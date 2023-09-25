@@ -33,7 +33,7 @@ except:
     import tifffile
 import bpy
 
-# Tif file with RGB Color dtype (path cannot have spaces)
+# Tif file with RGB Color dtype (path cannot have spxaces)
 input_file = "/Users/oanegros/Documents/werk/blender_workshop/221107_SampleA_SoRA_Gonad1_fused_3.tif"
 # input_file = "/Users/oanegros/Documents/werk/blender_workshop/3colortif.tif"
 # path to zstacker executable (path cannot have spaces)
@@ -49,14 +49,9 @@ def make_and_load_vdb(imgdata, x_ix, y_ix, z_ix, axes_order, tif):
     tmpfiles = []
     zax =  axes_order.find('z')
     for z in range(imgdata.shape[zax]):
-        print(imgdata.take(indices=z,axis=zax).shape)
-        print(imgdata.shape, z)
         fname = tif.parents[0] / f"tmp_zstacker/{z:04}.tif"
         plane = imgdata.take(indices=z,axis=zax)
-#        if axes_order.find('x') < axes_order.find('y'):
-#            print('transposing')
-#            plane = plane.T
-        print(plane.shape)
+
         tifffile.imwrite(fname, plane)
         tmpfiles.append(fname)
     identifier = str(x_ix)+str(y_ix)+str(z_ix)
@@ -67,26 +62,24 @@ def make_and_load_vdb(imgdata, x_ix, y_ix, z_ix, axes_order, tif):
     for tmpfile in tmpfiles:
         tmpfile.unlink()
     
-    scale = np.ones(3)*0.02
+    
     bpy.ops.object.volume_import(filepath=str(tif.with_name(tif.stem + identifier +".vdb")), align='WORLD', location=(0, 0, 0))
+
     return bpy.context.view_layer.objects.active
 
 
 tif = Path(input_file)
 
-#print('hey')
-print(tif)
 with tifffile.TiffFile(input_file) as ifstif:
     imgdata = ifstif.asarray()
+    print(imgdata.shape)
+    imgdata = np.moveaxis(imgdata, 1,2)
+    print(imgdata.shape)
     metadata = dict(ifstif.imagej_metadata)
 
 
-print(metadata)
 (tif.parents[0] / "tmp_zstacker/").mkdir(exist_ok=True)
 
-
-print(imgdata.shape)
-print([(dim // 2048)+ 1 for dim in imgdata.shape])
 n_splits = [(dim // 2048)+ 1 for dim in imgdata.shape]
 arrays = [imgdata]
 # i know axis order is abc as it is not defined
@@ -99,14 +92,19 @@ for a_ix, a_chunk in enumerate(a_chunks):
     for b_ix, b_chunk in enumerate(b_chunks):
         c_chunks = np.array_split(b_chunk, n_splits[2], axis=2)
         for c_ix, c_chunk in enumerate(reversed(c_chunks)):
+            print(c_chunk.shape)
             vol = make_and_load_vdb(c_chunk, a_ix, b_ix, c_ix, axes_order, tif)
+#            bbox = np.array(vol.bound_box[-2][:])
             bbox = np.array([c_chunk.shape[2],c_chunk.shape[1],c_chunk.shape[0]*(z_scale/xy_scale)])
+            print(bbox)
             scale = np.ones(3)*0.02
             vol.scale = scale
+            print(c_ix, b_ix, a_ix)
             offset = np.array([-c_ix-1,-b_ix-1,-a_ix-1])
             
             vol.location = tuple(offset*bbox*scale)
             volumes.append(vol)
+
 
 # keep z at bottom
 center = np.array([c_chunk.shape[2] * (-len(c_chunks)), c_chunk.shape[1] * (-len(b_chunks)), c_chunk.shape[0] * (-len(a_chunks)*(z_scale/xy_scale))])*np.array([0.5,0.5,1])
