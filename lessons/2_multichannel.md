@@ -16,7 +16,9 @@ As an extra challenge, this also shows the result of a cellpose segmentation pip
 Also, consider animating your output! You can do this by adding `keyframes` for almost all values. An easy way to get started with this is to set a `keyframe` for a camera `Rotation` and `Location` at the start, move the timepoint in the `Timeline`, move the camera and add a new `keyframe` for camera `Rotation` and `Location` at this timepoint. Blender will now interpolate between the two locations at all timeframes in between.
 
 ---
-<details><summary>Hints for multichannel images</summary> The <code>Mix Shader</code> Node allows you to combine multiple shaders together before piping to <code>Material Output</code> </details>
+<details><summary>Hints for multichannel images</summary> The <code>Mix Shader</code> Node allows you to combine multiple shaders together before piping to <code>Material Output</code>, for volumetric mixing. 
+
+If you want to combine multiple channels rendered as volume to mesh, you need a separate `Geometry`(Cube) for each channel, as the `Mesh to Volume` modifier only thresholds one channel. </details>
 
 <details><summary>Hints for mask renders</summary> Outlines are not very easy to make, other render modes may work easier, such as very transparent or translucent materials. 
 For transparency to work in <code>Eevee</code>, you need to set <code>Material Properties > Settings > Blend Mode</code> to <code>Alpha Blend</code>.
