@@ -18,6 +18,8 @@ Also, consider animating your output! You can do this by adding `keyframes` for 
 ---
 <details><summary>Hints for multichannel images</summary> The <code>Mix Shader</code> Node allows you to combine multiple shaders together before piping to <code>Material Output</code>, for volumetric mixing. 
 
+<img src="../figures/multichannel nodes.png" width="600"/>
+
 If you want to combine multiple channels rendered as volume to mesh, you need a separate `Geometry`(Cube) for each channel, as the `Mesh to Volume` modifier only thresholds one channel. </details>
 
 <details><summary>Hints for mask renders</summary> Outlines are not very easy to make, other render modes may work easier, such as very transparent or translucent materials. 
@@ -27,8 +29,14 @@ To make outlines work, <a href="https://www.youtube.com/watch?v=5wu_SvCCX_U">i f
 Note that for this to work you need to flip the normals of the <code>Solidify Modifier</code> so that <code>Backface Culling</code> in <code>Material Properties > Settings</code> effectively becomes front-face culling (<code>Eevee</code> only tries to render the back of the object). 
 <br><br>
 An even more advanced render may take the value out of the mask and seed a random number generator in <code>Geometry Nodes</code> to assign random colors to each outline. (or even create <code>Instances</code> of each separate nucleus that behave as their own <code>Geometry</code>)
-
  </details>
+
+
+ <details><summary>Hints for slicing</summary> With the <code>Mix Shader</code> Node, mixing your eventual shader with a <code>Transparent BSDF</code> shader (or even no shader), conditionally based on <code>Position</code> in the volume, you can make volume slicing possible:
+
+ <img src="../figures/slicing.png" width="600"/>
+
+</details>
 
 ---
 
