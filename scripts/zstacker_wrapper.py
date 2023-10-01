@@ -35,13 +35,12 @@ import bpy
 
 # Tif file with RGB Color dtype (path cannot have spxaces)
 input_file = "path/to/your/file.tif"
-# input_file = "/Users/oanegros/Documents/werk/blender_workshop/3colortif.tif"
 # path to zstacker executable (path cannot have spaces)
 zstacker_path = "/path/to/zstacker"
 
 # physical size of the pixels in µm
-xy_scale = 0.0339
-z_scale = 0.16
+xy_scale = 0.207
+z_scale = 0.17
 
 axes_order = 'zyx'
 
@@ -59,8 +58,8 @@ def make_and_load_vdb(imgdata, x_ix, y_ix, z_ix, axes_order, tif):
     for z in range(imgdata.shape[zax]):
         fname = tif.parents[0] / f"tmp_zstacker/{z:04}.tif"
         plane = imgdata.take(indices=z,axis=zax)
-        if axes_order.find('x') > axes_order.find('y'):
-            plane = plane.T
+        # if axes_order.find('x') > axes_order.find('y'):
+        #     plane = plane.T
         tifffile.imwrite(fname, plane)
         tmpfiles.append(fname)
     identifier = str(x_ix)+str(y_ix)+str(z_ix)
