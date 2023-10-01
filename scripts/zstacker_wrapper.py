@@ -34,10 +34,10 @@ except:
 import bpy
 
 # Tif file with RGB Color dtype (path cannot have spxaces)
-input_file = "/Users/oanegros/Documents/werk/blender_workshop/221107_SampleA_SoRA_Gonad1_fused_3.tif"
+input_file = "path/to/your/file.tif"
 # input_file = "/Users/oanegros/Documents/werk/blender_workshop/3colortif.tif"
 # path to zstacker executable (path cannot have spaces)
-zstacker_path = "/Users/oanegros/Documents/werk/scripts/zstacker_v1.0_macos_1015/zstacker"
+zstacker_path = "/path/to/zstacker"
 
 # physical size of the pixels in µm
 xy_scale = 0.0339
@@ -45,26 +45,32 @@ z_scale = 0.16
 
 axes_order = 'zyx'
 
+# note that this will write a dynamically linked vdb file, so rerunning the script on a file with the same name
+# in the same folder, but with different data, will change the previously loaded data.
+
 def make_and_load_vdb(imgdata, x_ix, y_ix, z_ix, axes_order, tif):
+    # unpacks z stack into x/y slices in tmp tif files
+    # calls zstacker, which assembles this into a vdb
+    # deletes tmp files
+    # returns the added volume object blender pointer
+    # TODO redo x and y orientation from axes_order; rewrite with pyopenvdb
     tmpfiles = []
     zax =  axes_order.find('z')
     for z in range(imgdata.shape[zax]):
         fname = tif.parents[0] / f"tmp_zstacker/{z:04}.tif"
         plane = imgdata.take(indices=z,axis=zax)
-
+        if axes_order.find('x') > axes_order.find('y'):
+            plane = plane.T
         tifffile.imwrite(fname, plane)
         tmpfiles.append(fname)
     identifier = str(x_ix)+str(y_ix)+str(z_ix)
 
     subprocess.run(" ".join([zstacker_path, "-t 1 -z", str(z_scale/xy_scale) ,str(tif.parents[0] / "tmp_zstacker"),  str(tif.with_name(tif.stem + identifier +".vdb"))]), shell=True)
 
-    #    
     for tmpfile in tmpfiles:
         tmpfile.unlink()
     
-    
     bpy.ops.object.volume_import(filepath=str(tif.with_name(tif.stem + identifier +".vdb")), align='WORLD', location=(0, 0, 0))
-
     return bpy.context.view_layer.objects.active
 
 
@@ -80,23 +86,22 @@ with tifffile.TiffFile(input_file) as ifstif:
 
 (tif.parents[0] / "tmp_zstacker/").mkdir(exist_ok=True)
 
+# 2048 is maximum grid size for Eevee rendering, so grids are split for multiple
 n_splits = [(dim // 2048)+ 1 for dim in imgdata.shape]
 arrays = [imgdata]
-# i know axis order is abc as it is not defined
 
+
+# Loops over all axes and splits based on length
+# reassembles in negative coordinates, parents all to a parent at (half_x, half_y, bottom) that is then translated to (0,0,0)
 volumes =[]
 a_chunks = np.array_split(imgdata, n_splits[0], axis=0)
 for a_ix, a_chunk in enumerate(a_chunks):
     b_chunks = np.array_split(a_chunk, n_splits[1], axis=1)
-    
     for b_ix, b_chunk in enumerate(b_chunks):
         c_chunks = np.array_split(b_chunk, n_splits[2], axis=2)
         for c_ix, c_chunk in enumerate(reversed(c_chunks)):
-            print(c_chunk.shape)
             vol = make_and_load_vdb(c_chunk, a_ix, b_ix, c_ix, axes_order, tif)
-#            bbox = np.array(vol.bound_box[-2][:])
             bbox = np.array([c_chunk.shape[2],c_chunk.shape[1],c_chunk.shape[0]*(z_scale/xy_scale)])
-            print(bbox)
             scale = np.ones(3)*0.02
             vol.scale = scale
             print(c_ix, b_ix, a_ix)
@@ -106,13 +111,12 @@ for a_ix, a_chunk in enumerate(a_chunks):
             volumes.append(vol)
 
 
-# keep z at bottom
-center = np.array([c_chunk.shape[2] * (-len(c_chunks)), c_chunk.shape[1] * (-len(b_chunks)), c_chunk.shape[0] * (-len(a_chunks)*(z_scale/xy_scale))])*np.array([0.5,0.5,1])
+# recenter x, y, keep z at bottom
+center = np.array([0.5,0.5,1]) * np.array([c_chunk.shape[2] * (-len(c_chunks)), c_chunk.shape[1] * (-len(b_chunks)), c_chunk.shape[0] * (-len(a_chunks)*(z_scale/xy_scale))])
 empty = bpy.ops.object.empty_add(location=tuple(center*0.02))
 
 empty = bpy.context.object
 empty.name = str(tif.name) + " container" 
-
 
 for vol in volumes:
     vol.parent = empty
