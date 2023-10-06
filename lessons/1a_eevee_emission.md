@@ -73,7 +73,7 @@ Render Properties:
 
 <img src="../figures/render properties eevee.png" width="200"/>
 
-Under `Render Properties` we can change how accurate the render is. We are currently using the `Eevee` render engine, which is a fast and interactive renderer. Here one easy optimization is to increase the number of `Viewport Samples`, increasing the depth of the Volume tree that is sampled.
+Under `Render Properties` we can change how accurate the render is. We are currently using the `Eevee` render engine, which is a fast and interactive renderer. Here one easy optimization is to increase the number of `Viewport Samples`, increasing the pixel density that is separately sampled.
 Additionally, we can change settings in the `Volumetrics` tab: here recommended is to at least go to 2 px `Tile Size`. Here the `Samples` are less straight forward, as they are also modulated by `Distribution`. Often the standard settings work. 
 
 Additionally change under `Render Properties > Color Management` the `View Transform` to `Standard`, the standard `Filmic` color management setting quenches your dynamic range.
