@@ -2,6 +2,8 @@
 
 Hi! This is a course on blender, an open-source 3D modeling software, for biological visualization. This is created initially for the 2023 EMBL Predoc Course but will stay online afterwards, as resources on microscopy data visualization in blender seem sparse on the web. 
 
+**Epilepsy warning! Rendering volumes in Blender can cause flashing lights.**
+
 ### Why render microscopy data in blender
 
 All biological systems live in 3D, and a lot of our data, such as microscopy, are also 3D. Most of this is either viewed purely slice-by-slice or in exorbitantly expensive proprietary software. 
