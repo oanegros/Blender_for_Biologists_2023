@@ -19,7 +19,17 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+import bpy
 
+from bpy.props import (StringProperty, FloatProperty,
+                        PointerProperty,
+                        )
+
+from bpy.types import (Panel,
+                        Operator,
+                        AddonPreferences,
+                        PropertyGroup,
+                        )
 
 import subprocess
 from pathlib import Path
@@ -31,23 +41,47 @@ try:
 except:
     pip.main(['install', 'tifffile'])
     import tifffile
-import bpy
 
-# Tif file with RGB Color dtype (path cannot have spxaces)
-input_file = "path/to/your/file.tif"
-# path to zstacker executable (path cannot have spaces)
-zstacker_path = "/path/to/zstacker"
 
-# physical size of the pixels in µm
-xy_scale = 0.207
-z_scale = 0.17
 
-axes_order = 'zyx'
+bpy.types.Scene.path_zstack = StringProperty(
+        name="",
+        description="Zstacker executable",
+        options = {'TEXTEDIT_UPDATE'},
+        default="",
+        maxlen=1024,
+        subtype='FILE_PATH')
+
+bpy.types.Scene.path_tif = StringProperty(
+        name="",
+        description="RGB tif file",
+        options = {'TEXTEDIT_UPDATE'},
+        default="",
+        maxlen=1024,
+        subtype='FILE_PATH')
+    
+bpy.types.Scene.axes_order = StringProperty(
+        name="",
+        description="axes order (only z is used currently)",
+        default="zyx",
+        maxlen=6)
+    
+bpy.types.Scene.xy_size = FloatProperty(
+        name="",
+        description="xy physical pixel size in micrometer",
+        default=1.0)
+    
+bpy.types.Scene.z_size = FloatProperty(
+        name="z_size",
+        description="z physical pixel size in micrometer",
+        default=1.0)
+
+
 
 # note that this will write a dynamically linked vdb file, so rerunning the script on a file with the same name
 # in the same folder, but with different data, will change the previously loaded data.
 
-def make_and_load_vdb(imgdata, x_ix, y_ix, z_ix, axes_order, tif):
+def make_and_load_vdb(imgdata, x_ix, y_ix, z_ix, axes_order, tif, zstacker_path, z_scale, xy_scale):
     # unpacks z stack into x/y slices in tmp tif files
     # calls zstacker, which assembles this into a vdb
     # deletes tmp files
@@ -72,57 +106,134 @@ def make_and_load_vdb(imgdata, x_ix, y_ix, z_ix, axes_order, tif):
     bpy.ops.object.volume_import(filepath=str(tif.with_name(tif.stem + identifier +".vdb")), align='WORLD', location=(0, 0, 0))
     return bpy.context.view_layer.objects.active
 
+def load_tif(input_file, zstacker_path, xy_scale, z_scale, axes_order):
+    
+    tif = Path(input_file)
 
-tif = Path(input_file)
-
-with tifffile.TiffFile(input_file) as ifstif:
-    imgdata = ifstif.asarray()
-    print(imgdata.shape)
-    imgdata = np.moveaxis(imgdata, 1,2)
-    print(imgdata.shape)
-    metadata = dict(ifstif.imagej_metadata)
-
-
-(tif.parents[0] / "tmp_zstacker/").mkdir(exist_ok=True)
-
-# 2048 is maximum grid size for Eevee rendering, so grids are split for multiple
-n_splits = [(dim // 2048)+ 1 for dim in imgdata.shape]
-arrays = [imgdata]
+    with tifffile.TiffFile(input_file) as ifstif:
+        imgdata = ifstif.asarray()
+        print(imgdata.shape)
+        imgdata = np.moveaxis(imgdata, 1,2)
+        print(imgdata.shape)
+        metadata = dict(ifstif.imagej_metadata)
 
 
-# Loops over all axes and splits based on length
-# reassembles in negative coordinates, parents all to a parent at (half_x, half_y, bottom) that is then translated to (0,0,0)
-volumes =[]
-a_chunks = np.array_split(imgdata, n_splits[0], axis=0)
-for a_ix, a_chunk in enumerate(a_chunks):
-    b_chunks = np.array_split(a_chunk, n_splits[1], axis=1)
-    for b_ix, b_chunk in enumerate(b_chunks):
-        c_chunks = np.array_split(b_chunk, n_splits[2], axis=2)
-        for c_ix, c_chunk in enumerate(reversed(c_chunks)):
-            vol = make_and_load_vdb(c_chunk, a_ix, b_ix, c_ix, axes_order, tif)
-            bbox = np.array([c_chunk.shape[2],c_chunk.shape[1],c_chunk.shape[0]*(z_scale/xy_scale)])
-            scale = np.ones(3)*0.02
-            vol.scale = scale
-            print(c_ix, b_ix, a_ix)
-            offset = np.array([-c_ix-1,-b_ix-1,-a_ix-1])
-            
-            vol.location = tuple(offset*bbox*scale)
-            volumes.append(vol)
+    (tif.parents[0] / "tmp_zstacker/").mkdir(exist_ok=True)
+
+    # 2048 is maximum grid size for Eevee rendering, so grids are split for multiple
+    n_splits = [(dim // 2048)+ 1 for dim in imgdata.shape]
+    arrays = [imgdata]
 
 
-# recenter x, y, keep z at bottom
-center = np.array([0.5,0.5,1]) * np.array([c_chunk.shape[2] * (-len(c_chunks)), c_chunk.shape[1] * (-len(b_chunks)), c_chunk.shape[0] * (-len(a_chunks)*(z_scale/xy_scale))])
-empty = bpy.ops.object.empty_add(location=tuple(center*0.02))
+    # Loops over all axes and splits based on length
+    # reassembles in negative coordinates, parents all to a parent at (half_x, half_y, bottom) that is then translated to (0,0,0)
+    volumes =[]
+    a_chunks = np.array_split(imgdata, n_splits[0], axis=0)
+    for a_ix, a_chunk in enumerate(a_chunks):
+        b_chunks = np.array_split(a_chunk, n_splits[1], axis=1)
+        for b_ix, b_chunk in enumerate(b_chunks):
+            c_chunks = np.array_split(b_chunk, n_splits[2], axis=2)
+            for c_ix, c_chunk in enumerate(reversed(c_chunks)):
+                vol = make_and_load_vdb(c_chunk, a_ix, b_ix, c_ix, axes_order, tif, zstacker_path, z_scale, xy_scale)
+                bbox = np.array([c_chunk.shape[2],c_chunk.shape[1],c_chunk.shape[0]*(z_scale/xy_scale)])
+                scale = np.ones(3)*0.02
+                vol.scale = scale
+                print(c_ix, b_ix, a_ix)
+                offset = np.array([-c_ix-1,-b_ix-1,-a_ix-1])
+                
+                vol.location = tuple(offset*bbox*scale)
+                volumes.append(vol)
 
-empty = bpy.context.object
-empty.name = str(tif.name) + " container" 
 
-for vol in volumes:
-    vol.parent = empty
-    vol.matrix_parent_inverse = empty.matrix_world.inverted()
+    # recenter x, y, keep z at bottom
+    center = np.array([0.5,0.5,1]) * np.array([c_chunk.shape[2] * (-len(c_chunks)), c_chunk.shape[1] * (-len(b_chunks)), c_chunk.shape[0] * (-len(a_chunks)*(z_scale/xy_scale))])
+    empty = bpy.ops.object.empty_add(location=tuple(center*0.02))
 
-empty.location = (0,0,0)
+    empty = bpy.context.view_layer.objects.active
+    empty.name = str(tif.name) + " container" 
 
-print('done')
+    for vol in volumes:
+        vol.parent = empty
+        vol.matrix_parent_inverse = empty.matrix_world.inverted()
+
+    empty.location = (0,0,0)
+
+    print('done')
+    return
 
 
+
+class TifLoadOperator(bpy.types.Operator):
+    bl_idname = "tiftool.load"
+    bl_label = "Load TIF"
+    
+    def execute(self, context):
+        scn = context.scene
+        print(scn.path_zstack)
+        load_tif(input_file = scn.path_tif, zstacker_path=scn.path_zstack, xy_scale=scn.xy_size, z_scale=scn.z_size, axes_order=scn.axes_order)
+        return {'FINISHED'}
+
+
+
+class TIFLoadPanel(bpy.types.Panel):
+    bl_idname = "SCENE_PT_zstackpanel"
+    bl_label = "zstacker wrapper"
+    # bl_space_type = "VIEW_3D"   
+    # bl_region_type = "UI"
+    # bl_category = "Tools"
+    bl_space_type = 'PROPERTIES'
+    bl_region_type = 'WINDOW'
+    bl_context = "scene"
+
+    def draw(self, context):
+        layout = self.layout
+        scn = bpy.context.scene
+        col = layout.column(align=True)
+        col.label(text="RGB .tif file:")
+        col.prop(context.scene, "path_tif", text="")
+        col.label(text="zstacker executable:")
+        col.prop(scn, "path_zstack", text="")
+
+        split = layout.split()
+        col = split.column()
+        col.label(text="xy pixel size (µm):")
+        col.prop(scn, "xy_size")
+
+
+        col = split.column(align=True)
+        col.label(text="z pixel size (µm):")
+        col.prop(scn, "z_size")
+        
+        col = layout.column(align=True)
+#        col.label(text="axis order:")
+        col.prop(scn, "axes_order", text="axes")
+        
+#        layout.label(text="Big Button:")
+        layout.operator("tiftool.load")
+
+
+# ------------------------------------------------------------------------
+#    Registration
+# ------------------------------------------------------------------------
+
+classes = (
+    TifLoadOperator,
+    TIFLoadPanel,
+    
+)
+
+def register():
+    from bpy.utils import register_class
+    for cls in classes:
+        register_class(cls)
+
+
+def unregister():
+    from bpy.utils import unregister_class
+    for cls in reversed(classes):
+        unregister_class(cls)
+    del bpy.types.Scene.tiftool
+
+
+if __name__ == "__main__":
+    register()
