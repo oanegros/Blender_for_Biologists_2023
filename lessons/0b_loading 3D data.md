@@ -25,18 +25,23 @@ Move to the `scripting` tab of blender. This shows the blender-python interface.
 We'll run a python script [zstacker_wrapper.py](../scripts/zstacker_wrapper.py) from this interface, that will automatically call `zstacker`. Load in the script from the file explorer at the top, or just copy and paste the text.
 
 \
-Before running `zstacker`, the input values to `input_file` and `zstacker_path` to the appropriate paths for a tif file and the zstacker executable, respectively. Also put in the correct physical size of your pixels in for the `xy_size` and `z_size` fields. 
+Run the script by pressing the play button in the top row. You can go back to the `Layout` tab.
+
+This creates a field in `Scene Properties` called `zstacker wrapper`, asking you for the path to your zstacker executable, RGB tif file and dimensionality.
+
+<img src="../figures/zstacker sceneprop.png" alt="isolated" width="200"/>
 
 There is an example tif stack we will use in the course [here](../data/RPE1_Expansion_MeOH_405DAPI_488alphabetaTubulin_zstack_40x_Proc.tif.zip). This first needs to be unzipped.
 - <details><summary>About the example data</summary> The example data is a human retinal pigment epithelial (RPE-1) cell line, stained for microtubules (green) and DAPI (blue). Pixel size is 0.207 µm in Z, and 0.170 in X/Y. To achieve better resolution, the cell was imaged with Ultrastructure Expansion Microscopy (U-ExM), where the sample is physically expanded through a chemical process, enabling nanoscale imaging with standard microscopes, while preserving ultrastructure. See also <a href="../data/materials_methods_RPE1.md">full materials and methods</a>. The data was contributed by Granita Lokaj. </details>
 
-**Notes on input data**:
+
+Notes on input data:
 - Data should be a .tif zstack in RGB Color mode
 - It is easier to work with if your data is already normalized before running `zstacker_wrapper` 
 - Any vdb >2048 axis length will load into separate chunks of volumes. You may need to apply some of the settings to all of the separate subvolumes separately.  <details><summary> details</summary> This is a workaround for <a href="https://projects.blender.org/blender/blender/issues/83942">a known issue</a> with the Eevee volume render pipeline, which has a max size. Thus, Cycles can actually handle bigger datasets, but this can be very inconvenient as blender will crash immediately when accidentally opening a non-cycles viewport. </details>
 - <details><summary>Advanced</summary> The vdb format is optimized for sparse volumes with big empty areas. This is changed by thresholding your data with the -t flag in the zstacker utility, however, full sparse volume support in Blender is not enabled, and most of the gain will probably be in Cycles. </details>
 
-With the paths set to the correct filepaths, run the script by pressing the play button in the top row.
+Press `Load TIF` when all values have been set correctly. Loading data will take some time, and more for big datasets.
 
 This should yield a big gray box of data. In here is your data, it is just not rendered yet! For this: go to the [rendering lesson 1a](./1a_eevee_emission.md) :yum:.
 Or go [back to main](../README.md)
