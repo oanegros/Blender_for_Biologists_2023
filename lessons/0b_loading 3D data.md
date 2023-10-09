@@ -16,18 +16,9 @@ Image from Ken Museth (2013), showing the depth of saving of a 2D circle in a vd
 
 ## Running zstacker
 
-Move to the `scripting` tab of blender. This shows the blender-python interface. 
+We'll add an add-on [`tif_loader.zip`](../scripts/tif_loader.zip). You can add the Add-On through `Edit > Preferences > Add-Ons`. Here you can press `Install` and give the `tif_loader.zip` file. **NOTE:** Tif Loader currently installs automatically the module `tifffile` in your blender python environment. This will be more user-initiated in the future, but has not yet been fixed.
 
-<img src="../figures/scripting tab.png" alt="isolated" width="100"/>
-
-- <details><summary>Blender tabs?</summary>tabs are located at the top of the screen, and allow different workflows. The default is 'layout', each tab has a different purpose. For the purposes of this tutorial, we will stay between the layout, scripting and shading tabs. Any tab's windows can also be edited and customized. </details>
-
-We'll run a python script [zstacker_wrapper.py](../scripts/zstacker_wrapper.py) from this interface, that will automatically call `zstacker`. Load in the script from the file explorer at the top, or just copy and paste the text.
-
-\
-Run the script by pressing the play button in the top row. You can go back to the `Layout` tab.
-
-This creates a field in `Scene Properties` called `zstacker wrapper`, asking you for the path to your zstacker executable, RGB tif file and dimensionality.
+This creates a field in `Scene Properties` called `zstacker wrapper`, asking you for the path to your zstacker executable, RGB tif file and dimensionality. The `zstacker wrapper` can call a some python functions that unpack your tif file, and cal zstacker to convert it into a `.vdb`. 
 
 <img src="../figures/zstacker sceneprop.png" alt="isolated" width="200"/>
 
