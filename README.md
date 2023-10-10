@@ -6,7 +6,7 @@ Hi! This is a course on blender, an open-source 3D modeling software, for biolog
 
 ### Why render microscopy data in blender
 
-All biological systems live in 3D, and a lot of our data, such as microscopy, are also 3D. Most of this is either viewed purely slice-by-slice or in exorbitantly expensive proprietary software. 
+All biological systems live in 3D, and a lot of our data, such as microscopy, are also 3D. Most of this is either viewed purely slice-by-slice or in proprietary software. 
 
 Here, I hope to show that we can use the open source software blender, which has a lot of community support from artists, to create pretty and granularly controllable 3D data visualizations.
 
