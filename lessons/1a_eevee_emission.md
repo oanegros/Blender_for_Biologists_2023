@@ -16,7 +16,7 @@ To show the different channels in the volume we can look at the `Object Data Pro
 
 <img src="../figures/volume_channels.png"  width="200"/>
 
-Here we see that the `zstacker`-made volumes have 4 channels, encoding the RGBA of the RGB color tif. Note that these are case-sensitive names.
+Here we have case-sensitive names of all the channels of fluorescence in our data. 
 
 ## Volume shaders
 
