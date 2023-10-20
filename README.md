@@ -22,7 +22,7 @@ Let's try to make some pretty microscopy images!
 ## This workshop
 
 This workshop will hopefully show you:
-- loading in 3D microscopy data render it in Blender
+- loading in 3D microscopy data, and rendering it in Blender
 - emulating render modes of popular proprietary visualization software
 
 This will not teach:

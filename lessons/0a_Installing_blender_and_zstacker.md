@@ -8,6 +8,7 @@ For this course we need blender, and zstacker, an addon python package that can 
     - <details><summary>Advanced</summary>note that Blender 3.5 is the latest version that works on the EMBL cluster, but as long as you don't use newer features you can still render there</details>
   
 - Download the [tif loader zip file](../scripts/tif_loader.zip). 
+- If you do not have your own .tif files, download the [example data](../data/RPE1_Expansion_MeOH_405DAPI_488alphabetaTubulin_594acetylatTubulin_647NHS_zstack_40x_8bit.tif.zip) and unzip this.
 
 
 ## Start
