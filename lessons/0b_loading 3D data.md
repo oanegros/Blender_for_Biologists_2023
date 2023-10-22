@@ -20,7 +20,7 @@ The `tif loader` Add-On creates a field in `Scene Properties`, asking you for a 
 
 <img src="../figures/tif loader sceneprop.png" alt="isolated" width="200"/>
 
-There is an example tif stack we will use in the course [here](../data/RPE1_Expansion_MeOH_405DAPI_488alphabetaTubulin_zstack_40x_Proc.tif.zip). This first needs to be unzipped.
+There is an example tif stack we will use in the course [here](../data/RPE1_Expansion_MeOH_405DAPI_488alphabetaTubulin_594acetylatTubulin_647NHS_zstack_40x_8bit.tif.zip). This first needs to be unzipped.
 - <details><summary>About the example data</summary> The example data is a human retinal pigment epithelial (RPE-1) cell line, stained for microtubules (channel 0) and DNA (DAPI) (channel 1). Pixel size is 0.207 µm in Z, and 0.170 in X/Y. To achieve better resolution, the cell was imaged with Ultrastructure Expansion Microscopy (U-ExM), where the sample is physically expanded through a chemical process, enabling nanoscale imaging with standard microscopes, while preserving ultrastructure. See also <a href="../data/materials_methods_RPE1.md">full materials and methods</a>. The data was contributed by Granita Lokaj. </details>
 
 
