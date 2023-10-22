@@ -40,8 +40,8 @@ This is an example of a simple shader for microscopy data, where the data emits 
 
 Consider how each of the values changes the rendering!
 
-<details><summary>Explanation of how this shader works</summary> Here the <code>Attribute</code> reads out the <code>channelB</code> intensities in the volume. The <code>Fac</code> output of the <code>Attribute</code> node gives single values per voxel. 
-The <code>channelB</code> is then piped into <code>Map Range</code>, which thresholds (here at  >0.1 - very dependent on your data!) and rescales the intensity. 
+<details><summary>Explanation of how this shader works</summary> Here the <code>Attribute</code> reads out the <code>channel 0</code> intensities in the volume. The <code>Fac</code> output of the <code>Attribute</code> node gives single values per voxel. 
+The <code>channel 0</code> is then piped into <code>Map Range</code>, which thresholds (here at  >0.1 - very dependent on your data!) and rescales the intensity. 
 This goes to <code>Emission strength</code> - the emission of each voxel is defined by the rescaled intensity in the Blue channel. In the <code>Principled Volume</code>, the <code>Density</code> is set to 0. In this way, there is no obstruction for the emitted light. 
 The <code>Principled Volume</code> shader is then piped to <code>Material Output</code>. </details>
 <details><summary><code>Map Range > Clamp</code> explanation</summary> Clamping values in blender means to restrict to values between 0 and 1 </details>
