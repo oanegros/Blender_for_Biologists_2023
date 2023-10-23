@@ -14,10 +14,6 @@ For this course we need blender, and zstacker, an addon python package that can 
 ## Start
 
 Start blender.
-<details>
-  <summary>Advanced</summary>
-  To make it easier to troubleshoot Z-stack loading, consider <a href="https://docs.blender.org/manual/en/latest/advanced/command_line/launch/index.html">starting blender from the command line.</a>
-</details>
 
 Install the `tif loader` Add-On:
 - In Blender go to `Edit > Preferences`
