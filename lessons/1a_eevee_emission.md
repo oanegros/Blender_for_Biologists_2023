@@ -16,7 +16,7 @@ To show the different channels in the volume we can look at the `Object Data Pro
 
 <img src="../figures/volume_channels.png"  width="200"/>
 
-Here we have case-sensitive names of all the channels of fluorescence in our data. 
+Here we have _case-sensitive_ names of all the channels of fluorescence in our data.
 
 ## Volume shaders
 
@@ -32,15 +32,19 @@ This should open up the `Shader Nodes`, a limited graphical programming language
 
 The `Principled Volume` node contains most of the capabilities of volume shaders in blender, where key parts are `Emission`, how much light each voxel emits, and `Density`, how much light a voxel absorbs.
 
-We can now add new nodes with the options under `Add`, and connect nodes. Anythin that leads to the eventual `Material Output` node, is taken into account when rendering. 
+We can now add new nodes with the options under `Add`, and connect nodes. Anything that leads to the eventual `Material Output` node, is taken into account when rendering.
 
 This is an example of a simple shader for microscopy data, where the data emits white light, that you can try to recreate:
 
 <img src="../figures/simple 1a shader.png" width="500"/>
 
 Consider how each of the values changes the rendering!
+Note, that changing values, connections and settings here might result in the rendered object disappearing.
+Most of the time you can get it back by slightly rotating the viewport (with your middle mouse button).
 
-<details><summary>Explanation of how this shader works</summary> Here the <code>Attribute</code> reads out the <code>channel 0</code> intensities in the volume. The <code>Fac</code> output of the <code>Attribute</code> node gives single values per voxel. 
+<details><summary>Explanation of how this shader works</summary>
+Here the <code>Attribute</code> reads out the <code>channel 0</code> intensities in the volume (make sure the spelling of the attribute _name_ matches your channel).
+The <code>Fac</code> output of the <code>Attribute</code> node gives single values per voxel.
 The <code>channel 0</code> is then piped into <code>Map Range</code>, which thresholds (here at  >0.1 - very dependent on your data!) and rescales the intensity. 
 This goes to <code>Emission strength</code> - the emission of each voxel is defined by the rescaled intensity in the Blue channel. In the <code>Principled Volume</code>, the <code>Density</code> is set to 0. In this way, there is no obstruction for the emitted light. 
 The <code>Principled Volume</code> shader is then piped to <code>Material Output</code>. </details>
