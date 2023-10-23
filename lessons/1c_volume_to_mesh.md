@@ -1,6 +1,6 @@
 # Volume to mesh
 
-Add a cube to the scene with `Add` or `Shift+A`.
+Activate the _Layout_ tab and add a cube to the scene with `Add` or `Shift+A`.
 
 Add a `Volume to Mesh` `Modifier` to the cube, under the `Modifier Properties` tab in the `Properties` panel. 
 
@@ -12,7 +12,7 @@ Add a `Volume to Mesh` `Modifier` to the cube, under the `Modifier Properties` t
 
  ## Rendering meshes
 
- Some quick notes on rendering a mesh instead of a volume: 
+ Some quick notes on rendering a mesh instead of a volume (best to switch to the _Shading_ tab):
  - This needs a `Material`, the standard node is `Principled BSDF`. This contains most of what you need
  - If you do not make the object emit light, it needs to be lit by another source, this can be either volumetric emission, another mesh with emission, or a `Light`.
  

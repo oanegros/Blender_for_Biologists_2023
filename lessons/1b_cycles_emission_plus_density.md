@@ -36,7 +36,7 @@ This is similar to a Z projection, alghough the precise type of Z projection dep
 **Making other angles of view:**
 Here the location and rotation depends a lot more on your data :D. You can move the camera by the input values in `Object Properties` of the camera, or by pressing `G` and moving the mouse (constrain movement along an axis with `X` `Y` `Z` keys). `Rotation` and `Scale` can be done similarly with `R` and `S`.
 
-Snap `Active Camera` to Viewport location with `Alt` `Ctrl` `Numpad 0` (check `Emulate Numpad` in `Preferences > Input` if you do not have a numpad)
+Snap `Active Camera` to Viewport location with `Alt` `Ctrl` `Numpad 0` (check `Emulate Numpad` in `Preferences > Input` if you do not have a numpad), or alternatively, via the menu _View_ -> _Align View_ -> _Align Active Camera to View_.
 
 ## Output
 
