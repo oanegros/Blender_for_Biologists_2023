@@ -20,6 +20,7 @@ Also, consider animating your output! You can do this by adding `keyframes` for 
 
 <img src="../figures/multichannel nodes.png" width="600"/>
 
+You've already learned how to do multichannel volume rendering in [lesson 1c](./1c_multichannel.md).
 If you want to combine multiple channels rendered as volume to mesh, you need a separate `Geometry`(Cube) for each channel, as the `Mesh to Volume` modifier only thresholds one channel. </details>
 
 <details><summary>Hints for mask renders</summary> Outlines are not very easy to make, other render modes may work easier, such as very transparent or translucent materials. 
