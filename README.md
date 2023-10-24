@@ -39,7 +39,8 @@ Lesson 0 **Start**:
 Lesson 1 **Rendering**: 
 - [1a A fast interactive render mode](./lessons/1a_eevee_emission.md)
 - [1b A slow pretty volume render](./lessons/1b_cycles_emission_plus_density.md)
-- [1c Volume to mesh](./lessons/1c_volume_to_mesh.md)
+- [1c Multichannel rendering](./lessons/1c_multichannel.ms)
+- [1d Volume to mesh](./lessons/1d_volume_to_mesh.md)
 
 Lesson 2 **Combining it**:
 - [Multichannel images](./lessons/2_multichannel.md)
