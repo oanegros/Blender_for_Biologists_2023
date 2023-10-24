@@ -33,7 +33,7 @@ This will not teach:
 The course consists of lessons in .md text files. 
 
 Lesson 0 **Start**:
-- [0a Installing blender and zstacker](./lessons/0a_Installing_blender_and_zstacker.md)
+- [0a Installing blender and tif loader](./lessons/0a_Installing_blender_and_zstacker.md)
 - [0b Loading 3D data](./lessons/0b_loading%203D%20data.md)
 
 Lesson 1 **Rendering**: 
