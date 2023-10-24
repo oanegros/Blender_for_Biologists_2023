@@ -46,4 +46,4 @@ Render an image with `Render > Render Image` or `F12`.
 
 ---
 
-Until now we've been rendering the data as a volume, we can also convert the volume to a mesh to render it as a surface. To learn this go to [lesson 1c](./1c_volume_to_mesh.md). Or [go back to main](../README.md).
+Until now we've been rendering only the first channel of the volume. To learn how to show both channels at the same time, go to [lesson 1c](./1c_multichannel.md). Or [go back to main](../README.md).
