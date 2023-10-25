@@ -64,6 +64,8 @@ Watch out with live playing to do this in light render modes that your system ca
 
 Render the full animation by pressing `Render > Render Animation`. This will automatically write out images for each frame to a `/tmp/` folder, which you can later compile to video using a video compiler like `ffmpeg`.
 
+Alternatively, we can delete the current keyframes, and animate the data! If you enter `#frame / 30` in one of the `Rotation` values of the `Container` of the microscopy data, we will constantly rotate the data (the rotation will be equal to the frame number divided by 30). 
+
 
 ---
 
