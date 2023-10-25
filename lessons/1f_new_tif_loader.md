@@ -5,6 +5,8 @@ The version of `tif loader` we installed in this tutorial is actually not the cu
 For this we have to `Remove` our current version, which is done in the same `Edit > Preferences > Add-Ons` tab as we installed in:
 - unfold the `tif loader` details
 - press `(x) Remove`
+  
+ <img src="../figures/tif loader remove.png" width="200"/>
 
 Restart Blender. 
 
