@@ -41,6 +41,9 @@ Lesson 1 **Rendering**:
 - [1b A slow pretty volume render](./lessons/1b_cycles_emission_plus_density.md)
 - [1c Multichannel rendering](./lessons/1c_multichannel.ms)
 - [1d Volume to mesh](./lessons/1d_volume_to_mesh.md)
+- [1e Camera](./lessons/1e_camera.md)
+- [1f Simple animation](./lessons/1f_animation.md)
+- ([1d New tif loading](./lessons/1g_new_tif_loader.md))
 
 Lesson 2 **Combining it**:
 - [Multichannel images](./lessons/2_multichannel.md)
