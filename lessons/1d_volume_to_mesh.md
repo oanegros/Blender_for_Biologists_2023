@@ -30,3 +30,6 @@ The volume to mesh modifier is only available to meshes, so we need to add a ran
  - You can give this a new `Material`, by clicking `+ New` in the `Shading` tab with the cube selected in the `Outliner`.  The standard node is `Principled BSDF`. This contains most of what you need, play around with the values to see how the render changes!
  - If you do not make the object emit light, it needs to be lit by another source, this can be either volumetric emission, another mesh with emission, or a `Light`.
  
+ ---
+
+Now, we've seen two different ways to render the data: _volumetric_ and _volume to mesh_. However, how do we get this to a pretty output image? Go to [lesson 1e](./1e_camera.md). Or [go back to main](../README.md).
