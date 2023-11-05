@@ -2,7 +2,7 @@
 
 Hi! This is a course on blender, an open-source 3D modeling software, for biological visualization. This is created initially for the 2023 EMBL Predoc Course but will stay online afterwards, as resources on microscopy data visualization in blender seem sparse on the web. 
 
-The development of the supporting add-on has moved to [a separate repo](https://github.com/oanegros/tif2bpy) as it outgrew the scope of this course. 
+The development of the supporting add-on has moved to [a separate repo](https://github.com/oanegros/tif2bpy) as it outgrew the scope of this course. **This tif2bpy repository holds the current version of the tif loader, Blender For Biologists is currently out-of-date.** I will try to update the workshop to fit the new version, but this will take some time (see issue #16).
 
 **Epilepsy warning! Rendering volumes in Blender can cause flashing lights.**
 
